@@ -1,5 +1,4 @@
 # Feb 2,2022
-**Making a report or presentation using Rmarkdown**
-زبان جلسه : فارسی
+**Making a report or presentation using Rmarkdown**(persian)
 Speaker: خانم دکتر الهام هائم
-لینک ویدیو جلسه در یوتیوب : https://www.youtube.com/watch?v=cL7xFcr2XsU
+youtube link: https://www.youtube.com/watch?v=cL7xFcr2XsU&t=641s
