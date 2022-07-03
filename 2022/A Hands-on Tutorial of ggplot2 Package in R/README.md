@@ -1,7 +1,7 @@
 # June 30, 2022
 
-***Hands-on Tutorial of ggplot2 Package in R***(*English*)
-Speaker:Jenine Harris,Prof.
+***Hands-on Tutorial of ggplot2 Package in R***(*English*)<br />
+Speaker:Jenine Harris,Prof.<br />
 
 ### Workshop Slides
 
