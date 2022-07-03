@@ -1,0 +1,407 @@
+---
+title: "Introduction to R"
+subtitle: "Data Visualization in R"
+output: html_document
+---
+
+## How to follow along and participate
+
+```{r chunk1}
+library(package = "tidyverse")
+library(package = "haven")
+library(package = "gghalves")
+```
+
+## Importing data into R
+
+```{r chunk2}
+
+globalData2019 <- read_spss(file = "Pew Research Center Global Attitudes Spring 2019 Dataset WEB.sav")
+```
+
+## Data cleaning
+
+```{r chunk3}
+
+globalData2019clean <- globalData2019 %>%
+  filter(country %in% c(13, 17, 30, 32)) %>% 
+  select(country, SEX, AGE, BETTER_GENDER, COUNTRY_SATIS, 
+         ECON_SIT, LADDER_NOW) %>% 
+  zap_labels() %>%
+  mutate(AGE = na_if(AGE, 98)) %>% 
+  mutate(AGE = na_if(AGE, 99)) %>% 
+  mutate(LADDER_NOW = na_if(LADDER_NOW, 98)) %>% 
+  mutate(LADDER_NOW = na_if(LADDER_NOW, 99)) %>% 
+  mutate(country = recode_factor(country,
+                             '13' = 'Israel',
+                             '17' = 'Lebanon',
+                             '30' = 'Tunisia',
+                             '32' = 'Ukraine')) %>%
+  mutate(SEX = recode_factor(SEX,
+                             '1' = 'Male',
+                             '2' = 'Female')) %>% 
+  mutate(BETTER_GENDER = recode_factor(BETTER_GENDER,
+                                    '1' = 'Men',
+                                    '2' = 'Women',
+                                    '3' = 'Same/both equally',
+                                    '8' = NA_character_,
+                                    '9' = NA_character_)) %>% 
+  mutate(COUNTRY_SATIS = recode_factor(COUNTRY_SATIS,
+                                       '1' = 'Satisfied',
+                                       '2' = 'Dissatisfied',
+                                       '8' = NA_character_,
+                                       '9' = NA_character_)) %>% 
+  mutate(ECON_SIT = recode_factor(ECON_SIT,
+                                  '1' = 'Very good',
+                                  '2' = 'Somewhat good',
+                                  '3' = 'Somewhat bad',
+                                  '4' = 'Very bad',
+                                  '8' = NA_character_,
+                                  '9' = NA_character_)) 
+```
+
+
+## Check your work
+
+```{r chunk4}
+
+summary(object = globalData2019clean)
+```
+
+## Basic bar chart
+
+```{r chunk10}
+
+globalData2019clean %>%
+  ggplot(aes(x = SEX)) +
+  geom_bar() 
+```
+
+## Fancy bar chart
+
+```{r chunk11}
+
+globalData2019clean %>%
+  ggplot(aes(x = SEX)) +
+  geom_bar(fill = "deeppink") +
+  labs(x = "Sex",
+       y = "Frequency",
+       title = "Sex of 4058 participants in a 2019 survey of people from Israel,\nLebanon, Tunisia, and Ukraine.") +
+  theme_minimal()
+```
+
+## Fancy bar chart with colors
+
+```{r chunk12}
+
+globalData2019clean %>%
+  ggplot(aes(x = SEX, fill = SEX)) +
+  geom_bar() +
+  labs(x = "Sex",
+       y = "Frequency",
+       title = "Sex of 4058 participants in a 2019 survey of\npeople from Israel,\nLebanon, Tunisia, and Ukraine.") +
+  scale_fill_brewer(palette = "Set1") +
+  theme_minimal(base_size = 14)
+```
+
+## Super fancy bar chart 
+
+```{r chunk13}
+
+globalData2019clean %>%
+  ggplot(aes(x = SEX, fill = SEX)) +
+  geom_bar() +
+  labs(x = "Sex",
+       y = "Frequency",
+       title = "Sex of 4058 participants in a 2019 survey of\npeople from Israel,\nLebanon, Tunisia, and Ukraine.") +
+  scale_fill_brewer(palette = "Set1") +
+  theme_minimal(base_size = 14, base_family = "serif") +
+  theme(legend.position = "none") 
+```
+
+## You try it!
+
+Make a bar chart of the `BETTER_GENDER` responses from survey participants.
+
+Edit the code below to: 
+
+* Use `BETTER_GENDER` on the x-axis and as the fill variable in the `ggplot()` layer
+
+* Change the color of the bars by replacing "Set2" with the name of another palette (hint: palette names can be found by using the Help tab and entering scale_fill_brewer)
+
+* Add labels for the axes and a title inside the quote marks (see codebook for more about the question)
+
+* Replace `theme_minimal()` with another theme, you can find them by typing `theme_` into the Help tab
+
+* Play with the `base_size = ` by trying different numbers
+
+When you have completed the changes, click the little green arrow on the top right of the code chunk to run the code.
+
+
+```{r chunk14, eval = FALSE}
+
+globalData2019clean %>%
+  ggplot(aes(x = , fill = )) +
+  geom_bar() +
+  labs(x = "",
+       y = "",
+       title = "") +
+  scale_fill_brewer(palette = "") +
+  theme_minimal(base_size = , base_family = "serif") +
+  theme(legend.position = "none") 
+```
+
+
+## Stacked bar plot
+
+```{r chunk15}
+
+globalData2019clean %>% 
+  drop_na(BETTER_GENDER) %>% 
+  ggplot(aes(x = BETTER_GENDER, fill = SEX)) +
+  geom_bar() +
+  labs(x = "Who has better life",
+       y = "Frequency",
+       title = "Who has a better life by sex according to 4058\nparticipants in a 2019 survey of people from Israel,\nLebanon, Tunisia, and Ukraine.") +
+  scale_fill_brewer(palette = "Paired") +
+  theme_minimal(base_size = 12, base_family = "mono") 
+```
+
+## Grouped bar plot
+
+```{r chunk16}
+
+globalData2019clean %>% 
+  drop_na(BETTER_GENDER) %>% 
+  ggplot(aes(x = BETTER_GENDER, fill = SEX)) +
+  geom_bar(position = "dodge") +
+  labs(x = "Who has better life",
+       y = "Frequency",
+       title = "Who has a better life by sex according to 4058 participants\nin a 2019 survey of people from Israel,\nLebanon, Tunisia, and Ukraine.",
+       fill = "Survey participant sex") +
+  scale_fill_brewer(palette = "Paired") +
+  theme_minimal(base_size = 12, base_family = "serif") 
+```
+
+
+## You try it!
+
+* Create a grouped bar plot with `COUNTRY_SATIS` as the x-axis and `SEX` as the fill color 
+
+* Drop the `NA` values for `COUNTRY_SATIS`
+
+* Add good labels for the x-axis, y-axis, title (may need the codebook for this)
+
+* Format it using a palette you like  
+
+* Choose a different theme and try it (hint: type theme_ into the help to get the names of other themes to try)
+
+* Fix the legend title so it is "Participant sex"
+
+```{r chunk16b, eval=FALSE}
+
+globalData2019clean %>% 
+  drop_na() %>% 
+  ggplot(aes(x = , fill = )) +
+  geom_bar(position = "dodge") +
+  labs(x = "",
+       y = "",
+       title = "",
+       fill = "") +
+  scale_fill_brewer(palette = "") +
+  theme_()
+```
+
+
+## Answer to You try it!
+
+```{r chunk17}
+
+globalData2019clean %>% 
+  drop_na(COUNTRY_SATIS) %>% 
+  ggplot(aes(x = COUNTRY_SATIS, fill = SEX)) +
+  geom_bar(position = "dodge") +
+  labs(x = "Satisfied or dissatisfied with the way things\nare going in our country ",
+       y = "Frequency",
+       title = "Country satisfaction by sex according to 4058 participants\nin a 2019 survey of people from Israel,\nLebanon, Tunisia, and Ukraine.", 
+       fill = "Participant sex") +
+  scale_fill_brewer(palette = "Paired") +
+  theme_light() 
+
+```
+
+## Group percentages
+
+```{r chunk19}
+
+globalData2019clean %>% 
+  group_by(COUNTRY_SATIS, SEX) %>% 
+  count() %>% 
+  group_by(COUNTRY_SATIS) %>% 
+  mutate(perc = 100 * (n / sum(n))) 
+```
+
+## Grouped bar plot 
+
+```{r chunk20}
+
+globalData2019clean %>% 
+  group_by(COUNTRY_SATIS, SEX) %>% 
+  count() %>% 
+  group_by(COUNTRY_SATIS) %>% 
+  mutate(perc = 100 * (n / sum(n))) %>% 
+  drop_na(COUNTRY_SATIS) %>% 
+  ggplot(aes(x = COUNTRY_SATIS, y = perc, fill = SEX)) +
+  geom_col(position = "dodge") +
+  labs(x = "Satisfied or dissatisfied with the way things\nare going in our country ",
+       y = "Percentage within satisfaction group",
+       title = "Country satisfaction by sex according to 4058 participants\nin a 2019 survey of people from Israel,\nLebanon, Tunisia, and Ukraine.", 
+       fill = "Participant sex") +
+  scale_fill_brewer(palette = "Paired") +
+  theme_minimal() 
+```
+
+## Histogram
+
+```{r chunk21}
+
+# Histogram for age
+globalData2019clean %>% 
+  ggplot(aes(x = AGE)) +
+  geom_histogram() 
+```
+
+## Fancy histogram
+
+```{r chunk22}
+
+# Histogram for age
+globalData2019clean %>% 
+  ggplot(aes(x = AGE, fill = SEX)) +
+  geom_histogram(color = "white") +
+  labs(x = "Participant age (years)",
+       y = "Frequency",
+       title = "Age distribution by sex for 4058 participants in a 2019 survey\nof people from Israel,\nLebanon, Tunisia, and Ukraine.") +
+  scale_fill_brewer(palette = "Set1") +
+  facet_grid(rows = vars(SEX)) +
+  theme_minimal() +
+  theme(legend.position = "none") 
+```
+
+## Box plot
+
+```{r chunk23}
+
+globalData2019clean %>% 
+  ggplot(aes(x = SEX, y = AGE)) +
+  geom_boxplot() +
+  labs(x = "Participant sex",
+       y = "Age",
+       title = "Age by sex for 4058 participants in a 2019 survey of people\nfrom Israel,\nLebanon, Tunisia, and Ukraine.") +
+  theme_minimal() 
+```
+
+## Fancier box plot
+
+```{r chunk24}
+
+globalData2019clean %>% 
+  ggplot(aes(x = SEX, y = AGE, color = SEX)) +
+  geom_half_boxplot() +
+  geom_half_point(alpha = .4) +
+  labs(x = "Participant sex",
+       y = "Age",
+       title = "Age by sex for 4058 participants in a 2019 survey of people\nfrom Israel,\nLebanon, Tunisia, and Ukraine.") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## Grouped box plot
+
+```{r chunk25}
+
+globalData2019clean %>% 
+  ggplot(aes(y = LADDER_NOW, x = country, color = SEX)) +
+  geom_boxplot() +
+  labs(x = "Country",
+       y = "Life ladder (0 = worst, 10 = best)",
+       title = "Life ladder by sex and country for 4058 participants in a 2019 survey\nof people from Israel,\nLebanon, Tunisia, and Ukraine.",
+       color = "Sex") +
+  theme_minimal() 
+```
+
+## Rain cloud plot
+
+```{r chunk26}
+
+globalData2019clean %>% 
+  ggplot(aes(x = SEX, y = AGE, color = SEX, fill = SEX)) +
+  geom_half_violin(side = "r") +
+  geom_half_point(alpha = .3, side = "l") +
+  labs(x = "Participant sex",
+       y = "Age",
+       title = "Age by sex for 4058 participants in a 2019 survey of people from\nIsrael,\nLebanon, Tunisia, and Ukraine.") +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2") +
+  theme_minimal() +
+  coord_flip() +
+  theme(legend.position = "none")
+  
+```
+
+## Grouped rain cloud plot
+
+```{r chunk27}
+
+globalData2019clean %>% 
+  ggplot(aes(y = LADDER_NOW, x = country, fill = SEX, color = SEX)) +
+  geom_half_violin(side = "r") +
+  geom_half_point(alpha = .3, side = "l") +
+  labs(x = "Country",
+       y = "Life ladder (0 = worst, 10 = best)",
+       title = "Life ladder by sex and country for 4058 participants in a 2019 survey\nof people from Israel,\nLebanon, Tunisia, and Ukraine.",
+       color = "Sex",
+       fill = "Sex") +
+  theme_minimal() +
+  coord_flip() +
+  scale_color_brewer(palette = "Paired") +
+  scale_fill_brewer(palette = "Paired") 
+  
+```
+
+## Grouped rain cloud plot with facets
+
+```{r chunk28}
+
+globalData2019clean %>% 
+  ggplot(aes(y = LADDER_NOW, fill = SEX, color = SEX)) +
+  geom_half_violin(side = "r") +
+  geom_half_point(alpha = .3, side = "l") +
+  labs(x = "Country",
+       y = "Life ladder (0 = worst, 10 = best)",
+       title = "Life ladder by sex and country for 4058 participants in a 2019 survey\nof people from Israel,\nLebanon, Tunisia, and Ukraine.",
+       color = "Sex",
+       fill = "Sex") +
+  theme_minimal() +
+  coord_flip() +
+  scale_color_brewer(palette = "Paired") +
+  scale_fill_brewer(palette = "Paired") +
+  facet_wrap(facets = vars(country))
+  
+```
+
+## The final challenges...choose one or try them all!
+
+* Make a bar graph showing percentage of participants in each category of ECON_SIT 
+
+* Create a figure that shows grouped bar plots for GLOBAL_COMMUNITY grouped by country
+
+* Create a figure that shows grouped bar plots for country and COUNTRY_SATIS
+
+* Create a figure that shows grouped bar plots for COUNTRY_SATIS grouped by country and SEX
+
+* Create a figure that shows the distribution of AGE by country and SEX
+
+```{r chunk29}
+
+```
