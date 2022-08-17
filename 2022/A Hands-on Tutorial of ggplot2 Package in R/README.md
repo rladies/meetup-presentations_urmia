@@ -1,9 +1,11 @@
 # June 30, 2022
 
 ***Hands-on Tutorial of ggplot2 Package in R***(*English*)<br />
-youtube link: https://www.youtube.com/watch?v=RntWjipx6vg <br />
 Speaker:Jenine Harris,Prof.<br />
 Jenine K. Harris earned her doctorate in public health studies and biostatistics from Saint Louis University School of Public Health in 2008. Currently, she teaches biostatistics courses as an Associate Professor in the Brown School public health program at Washington University in St. Louis. In 2013, she authored An Introduction to Exponential Random Graph Modeling, which was published in Sage’s Quantitative Applications in the Social Sciences series and is accompanied by the ergmharris R package available on the Comprehensive R Archive Network (CRAN). She is an author on more than 80 peer-reviewed publications, and developed and published the odds.n.ends R package available on the CRAN. She is the leader of R-Ladies St. Louis, which she co-founded with Chelsea West in 2017 (@rladiesstl). R-Ladies St. Louis is a local chapter of R-Ladies Global (@rladiesglobal), an organization devoted to promoting gender diversity in the R community. Her recent research interests focus on improving the quality of research in public health by using reproducible research practices throughout the research process.
+
+youtube link: https://www.youtube.com/watch?v=RntWjipx6vg <br />
+
 
 ### Workshop Slides
 
