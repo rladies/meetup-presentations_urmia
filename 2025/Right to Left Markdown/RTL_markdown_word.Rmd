@@ -1,0 +1,42 @@
+---
+title: "Untitled"
+author: "Foad Esmaeili"
+date: "2025-06-04"
+output: 
+  word_document:
+    reference_docx: "my_template.docx"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## این یک گزارش فارسی است
+
+با سلام و یاد خدا
+این یک متن فارسی است در محیط
+Rmarkdown.
+
+```{r}
+summary(iris)
+```
+
+این هم یک متن فارسی دیگر
+
+```{r,fig.cap="گل های زنبق"}
+plot(iris[,1:4])
+```
+
+میانگین سطون مد نظر برابر
+`r mean(iris$Sepal.Length)`
+است
+
+
+و این هم یک متن دیگر
+
+```{r}
+library(gt)
+gt(head(iris))
+```
+

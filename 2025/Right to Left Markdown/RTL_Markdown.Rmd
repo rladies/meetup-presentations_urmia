@@ -1,0 +1,44 @@
+---
+title: "This is a right to left text"
+author: "فواد اسماعیلی"
+date: "2025-06-04"
+output: 
+  html_document:
+    css: "mystyle.css"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,digits = 2)
+knitr::knit_hooks$set(inline= function(x) {
+  if(is.numeric(x)) {
+    round(x,2)
+  }
+})
+```
+
+# مارکدان به فارسی
+
+
+این یک متن فارسی است برای گزارش دهی های ما در قالب زبان فارسی
+
+میانگین ها برابر هستند با:
+
+`r mean(iris$Sepal.Length)`
+
+و این هم یک متن دیگر
+
+```{r}
+summary(iris)
+```
+
+
+```{r}
+summary(mtcars)
+```
+
+
+```{r,fig.cap="این هم یک"}
+plot(iris[,1:4])
+```
+
+

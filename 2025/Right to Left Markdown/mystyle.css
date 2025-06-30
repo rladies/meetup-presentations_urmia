@@ -1,0 +1,36 @@
+
+body {
+  direction: rtl;
+  font-family: Arial;
+  text-align: right;
+}
+
+
+h1,h2,h3,h4,h5,h6 {
+  color: blue;
+  text-align: center;
+}
+
+.title {
+  font-family: Arial;
+  color: black;
+  text-align: center;
+}
+
+pre.r{
+  background-color: skyblue;
+  direction: ltr;
+  text-align: left;
+  color: black;
+  font-family: Times New Roman;
+  font-size: 20px; 
+  border-radius: 5px;
+}
+
+pre {
+  direction: ltr;
+  text-align: left;
+  color: black;
+  font-family: Times New Roman;
+  font-size: 20;
+}

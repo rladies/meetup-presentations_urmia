@@ -1,0 +1,40 @@
+---
+title: "Example"
+author: "RTLknitr"
+date: "`r Sys.Date()`"
+output:
+  bookdown::pdf_document2:
+    latex_engine: xelatex
+    toc: true
+header-includes:
+  - \usepackage{amsmath}
+  - \usepackage{hyperref}
+  - \usepackage{bidi}
+  - \usepackage{xepersian}
+  - \settextfont{Arial}
+  - \setlatintextfont{Arial}
+---
+
+```{r setup, include=FALSE}
+library(RTLknitr)
+knitr::opts_chunk$set(echo = TRUE)
+
+markdown_rtl()
+```
+
+## یک هدر
+
+
+
+یک متن فارسی
+
+
+```{r}
+summary(iris)
+```
+
+
+```{r,fig.cap = "this is a text"}
+plot(iris[,1:4])
+```
+
