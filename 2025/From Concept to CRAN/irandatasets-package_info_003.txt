@@ -1,0 +1,24 @@
+#' IranDataSets: A Comprehensive Collection of Iran-Focused Datasets
+#'
+#' \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+#'
+#' A Comprehensive Collection of Iran-Focused Datasets.
+#'
+#' @name IranDataSets
+#' @aliases IranDataSets-package
+#' @title IranDataSets: A Comprehensive Collection of Iran-Focused Datasets
+#' @description {
+#' This package provides a curated and diverse collection of datasets centered on Iran, the package includes Persian texts, demographic, educational, economic, and financial datasets such as the University of Tehran Persian texts, historical data on Iranian lower education students, and the Tehran Stock Exchange Capitalization Weighted Index (2010–2022).
+#' }
+#' @seealso {
+#' Useful links:
+#' \itemize{
+#'   \item \url{https://github.com/lightbluetitan/irandatasets}
+#' }
+#' }
+#' @author {
+#' \strong{Maintainer}: Renzo Caceres Rossi \email{arenzocaceresrossi@gmail.com}
+#' }
+'_PACKAGE'
+
+
